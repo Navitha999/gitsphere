@@ -3,6 +3,12 @@
    ========================================================================== */
 
 document.addEventListener('DOMContentLoaded', () => {
+  // Proactive protocol check for beginners
+  if (window.location.protocol === 'file:') {
+    alert("🚀 Pro-Tip: You opened index.html directly from your hard drive (file://).\n\nTo allow the frontend to talk to the backend, please:\n1. Run the server in your terminal: npm run dev\n2. Open http://localhost:5000 in your browser instead!");
+    showToast("Application opened as local file. Please visit http://localhost:5000", "error");
+  }
+
   // --- 1. Global Application State ---
   const state = {
     currentUsername: '',
