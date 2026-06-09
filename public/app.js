@@ -9,6 +9,9 @@ document.addEventListener('DOMContentLoaded', () => {
     showToast("Application opened as local file. Please visit http://localhost:5000", "error");
   }
 
+  // Base URL for API calls. If the page is opened via a different development port (like Live Server), we fallback to localhost:5000.
+  const API_BASE = window.location.port === '5000' ? '' : 'http://localhost:5000';
+
   // --- 1. Global Application State ---
   const state = {
     currentUsername: '',
@@ -171,7 +174,7 @@ document.addEventListener('DOMContentLoaded', () => {
       setStepActive(2);
 
       // Trigger the real backend network request
-      const responsePromise = fetch(`/api/github/analyze/${username}`);
+      const responsePromise = fetch(`${API_BASE}/api/github/analyze/${username}`);
       
       await delay(900);
       setStepCompleted(2);
@@ -229,7 +232,7 @@ document.addEventListener('DOMContentLoaded', () => {
         sortOrder: state.sortOrder
       });
 
-      const response = await fetch(`/api/github/profiles?${queryParams.toString()}`);
+      const response = await fetch(`${API_BASE}/api/github/profiles?${queryParams.toString()}`);
       const result = await response.json();
 
       if (!result.success) {
@@ -255,7 +258,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     try {
-      const response = await fetch(`/api/github/profiles/${username}`, {
+      const response = await fetch(`${API_BASE}/api/github/profiles/${username}`, {
         method: 'DELETE'
       });
       const result = await response.json();
@@ -288,7 +291,7 @@ document.addEventListener('DOMContentLoaded', () => {
    */
   async function loadSingleSavedProfile(username) {
     try {
-      const response = await fetch(`/api/github/profiles/${username}`);
+      const response = await fetch(`${API_BASE}/api/github/profiles/${username}`);
       const result = await response.json();
 
       if (!result.success) {
