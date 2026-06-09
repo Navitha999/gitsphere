@@ -42,19 +42,19 @@ export const validateQueryFilters = [
     .isInt({ min: 1, max: 100 })
     .withMessage('Limit must be an integer between 1 and 100'),
   query('search')
-    .optional()
+    .optional({ checkFalsy: true })
     .isString()
     .withMessage('Search query must be a string'),
   query('tier')
-    .optional()
+    .optional({ checkFalsy: true })
     .isIn(['S', 'A', 'B', 'C', 's', 'a', 'b', 'c'])
     .withMessage('Developer tier must be one of: S, A, B, or C'),
   query('sortBy')
-    .optional()
+    .optional({ checkFalsy: true })
     .isIn(['username', 'name', 'followers', 'public_repos', 'popularity_score', 'activity_score', 'analyzed_at'])
     .withMessage('Invalid sortBy field'),
   query('sortOrder')
-    .optional()
+    .optional({ checkFalsy: true })
     .isIn(['ASC', 'DESC', 'asc', 'desc'])
     .withMessage('Sort order must be ASC or DESC'),
   handleValidationErrors

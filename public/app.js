@@ -9,8 +9,13 @@ document.addEventListener('DOMContentLoaded', () => {
     showToast("Application opened as local file. Please visit http://localhost:5000", "error");
   }
 
-  // Base URL for API calls. If the page is opened via a different development port (like Live Server), we fallback to localhost:5000.
-  const API_BASE = window.location.port === '5000' ? '' : 'http://localhost:5000';
+  // Base URL for API calls.
+  // If running on Vercel or production, we use relative paths ('').
+  // If running locally (localhost/127.0.0.1) on a different port (like Live Server 5500), we fallback to http://localhost:5000.
+  const isLocal = window.location.hostname === 'localhost' || 
+                  window.location.hostname === '127.0.0.1' || 
+                  window.location.protocol === 'file:';
+  const API_BASE = (isLocal && window.location.port !== '5000') ? 'http://localhost:5000' : '';
 
   // --- 1. Global Application State ---
   const state = {
